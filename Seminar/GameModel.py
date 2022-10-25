@@ -1,6 +1,7 @@
 import random
 from tkinter import PhotoImage
-
+import matplotlib as mp
+import numpy as np
 
 class GameModel:
     def __init__(self, controller):
