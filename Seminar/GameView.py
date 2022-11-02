@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.font as tkFont
 
+
 class GameView:
     def __init__(self, root, controller):
         self.controller = controller
