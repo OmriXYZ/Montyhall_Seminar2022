@@ -1,7 +1,6 @@
 import random
 from tkinter import PhotoImage
 
-
 class GameModel:
     def __init__(self, controller):
         self.controller = controller
@@ -20,7 +19,6 @@ class GameModel:
 
         for i in range(3):
             self.controller.btn_change_image(i, self.door_photo)
-
 
 
     def door_selection(self, door_index):
