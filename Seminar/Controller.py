@@ -1,15 +1,16 @@
 import tkinter as tk
 from GameModel import GameModel
 from GameView import GameView
+import StatisticPlot
 
 
 class Controller():
     def __init__(self):
         self.root = tk.Tk()
+        self.plotStat = StatisticPlot.plotStat(self.root)
         self.view = GameView(self.root, self)
         self.model = GameModel(self)
         # Pass to view links on root frame and controller object
-
 
         self.root.mainloop()
 
@@ -29,8 +30,10 @@ class Controller():
         self.view.toplbl["text"] = str
 
     def stats_change_lbl(self, wins, losses):
-        self.view.winslbl["text"] = "wins: {wins}".format(wins = wins)
-        self.view.losseslbl["text"] = "losses: {losses}".format(losses = losses)
+        self.view.winslbl["text"] = "wins: {wins}".format(wins=wins)
+        self.view.losseslbl["text"] = "losses: {losses}".format(losses=losses)
+        self.plotStat.update(wins, losses)
+        self.plotStat.showPlot(self.root)
 
     def btn_change_image(self, index, photo):
         self.view.btns[index].config(image=photo)

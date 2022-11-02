@@ -8,7 +8,7 @@ class GameView:
 
         root.title("undefined")
         # setting window size
-        width = 600
+        width = 1200
         height = 500
         screenwidth = root.winfo_screenwidth()
         screenheight = root.winfo_screenheight()
