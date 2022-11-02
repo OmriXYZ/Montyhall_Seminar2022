@@ -21,8 +21,6 @@ class GameModel:
         for i in range(3):
             self.controller.btn_change_image(i, self.door_photo)
 
-
-
     def door_selection(self, door_index):
 
         if self.stage == 2:
@@ -57,11 +55,11 @@ class GameModel:
             self.controller.btn_change_image(self.l2[0], self.goat_photo)
             self.controller.btn_change_lbl(self.l2[0], "goat")
             self.stage += 1
-    def door_selection_simulation(self, door_index):
 
+    def door_selection_simulation(self, door_index):
         if self.stage == 2:
             self.stage = 0
-            self.reset_game()
+            self.reset_game_simulate()
             return
         if self.stage == 1:
             if door_index == self.ci:
@@ -69,17 +67,13 @@ class GameModel:
             else:
                 self.losses += 1
             self.stage += 1
-            self.controller.stats_change_lbl(self.wins, self.losses)
             return
         if self.stage == 0:
             for i in range(len(self.l1)):
                 if i != self.ci and i != door_index:
                     self.l2.append(i)
-            if self.l2 == 2:
-                random.shuffle(self.l2)
-            self.controller.toplbl_change_lbl("There is a goat in: {door}\nDo you want to keep your choice or change it?".format(door=self.l2[0]))
-            self.controller.btn_change_image(self.l2[0], self.goat_photo)
-            self.controller.btn_change_lbl(self.l2[0], "goat")
+            # if len(self.l2) == 2:
+            #     random.shuffle(self.l2)
             self.stage += 1
 
     def reset_game(self):
@@ -91,6 +85,11 @@ class GameModel:
         for i in range(3):
             self.controller.btn_change_image(i, self.door_photo)
 
+    def reset_game_simulate(self):
+        self.l1 = ["goat", "car", "goat"]
+        random.shuffle(self.l1)
+        self.ci = self.l1.index("car")
+        self.l2 = []  # indices that got the goat
 
     def simulate(self, iterations):
         for i in range(iterations):
@@ -109,13 +108,16 @@ class GameModel:
             self.door_selection_simulation(choice)
             self.door_selection_simulation(choice)
             self.door_selection_simulation(choice)
+        self.controller.stats_change_lbl(self.wins, self.losses)
+
     def simulateWithChange(self, iterations):
-        print("change")
         for i in range(iterations):
             choice = random.randint(0, 2)
             self.door_selection_simulation(choice)
             for j in range(3):
                 if j != choice and j != self.l2[0]:
                     choice = j
+                    break
             self.door_selection_simulation(choice)
             self.door_selection_simulation(choice)
+        self.controller.stats_change_lbl(self.wins, self.losses)

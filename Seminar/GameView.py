@@ -64,7 +64,7 @@ class GameView:
         self.btn_simulate["fg"] = "#000000"
         self.btn_simulate["justify"] = "center"
         self.btn_simulate["text"] = "simulate"
-        self.btn_simulate.place(x=225 + 150 + 25, y=400, width=70, height=25)
+        self.btn_simulate.place(x=225 + 150, y=400, width=70, height=25)
         self.btn_simulate["command"] = self.btn_simulate_click
 
         self.toplbl = tk.Label(root)
@@ -100,10 +100,21 @@ class GameView:
         self.change_checkbox["fg"] = "#333333"
         self.change_checkbox["justify"] = "center"
         self.change_checkbox["text"] = "With change door"
-        self.change_checkbox.place(x=370, y=440, width=150, height=25)
+        self.change_checkbox.place(x=360, y=440, width=150, height=25)
         self.change_checkbox["offvalue"] = "0"
         self.change_checkbox["onvalue"] = "1"
         self.change_checkbox["command"] = self.checkbox_check
+
+        self.amount_input = tk.Entry(root)
+        self.amount_input["textvariable"] = 'amount'
+        self.amount_input.place(x=460, y=400, width=100, height=25)
+
+        self.amountlbl = tk.Label(root)
+        ft = tkFont.Font(family='Arial', size=10)
+        self.amountlbl["font"] = ft
+        self.amountlbl["justify"] = "center"
+        self.amountlbl["text"] = "Iterations:"
+        self.amountlbl.place(x=440, y=380, width=100, height=15)
 
     def btn1_click(self):
         self.controller.btn1_click()
@@ -115,7 +126,7 @@ class GameView:
         self.controller.btn3_click()
 
     def btn_simulate_click(self):
-        self.controller.simulate(self.trigger_change)
+        self.controller.simulate(self.trigger_change, int(self.amount_input.get()))
 
     def checkbox_check(self):
         self.trigger_change = not self.trigger_change
