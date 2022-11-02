@@ -39,3 +39,9 @@ class Controller():
         for i, btn in enumerate(self.view.btns):
             btn["text"] = i
         self.view.toplbl["text"] = "Pick one of three doors"
+
+    def simulate(self, changedoor):
+        if changedoor:
+            self.model.simulateWithChange(1000)
+        else:
+            self.model.simulateWithNoChange(10000)

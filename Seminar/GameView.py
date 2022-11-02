@@ -56,6 +56,17 @@ class GameView:
         self.btns.append(self.btn2)
         self.btns.append(self.btn3)
 
+        self.btn_simulate = tk.Button(root)
+        self.btn_simulate["anchor"] = "center"
+        self.btn_simulate["bg"] = "#f0f0f0"
+        ft = tkFont.Font(family='Arial', size=10)
+        self.btn_simulate["font"] = ft
+        self.btn_simulate["fg"] = "#000000"
+        self.btn_simulate["justify"] = "center"
+        self.btn_simulate["text"] = "simulate"
+        self.btn_simulate.place(x=225 + 150 + 25, y=400, width=70, height=25)
+        self.btn_simulate["command"] = self.btn_simulate_click
+
         self.toplbl = tk.Label(root)
         ft = tkFont.Font(family='Arial', size=10)
         self.toplbl["font"] = ft
@@ -82,6 +93,18 @@ class GameView:
         self.losseslbl["text"] = "losses: 0"
         self.losseslbl.place(x=50, y=410, width=100, height=20)
 
+        self.trigger_change = False
+        self.change_checkbox = tk.Checkbutton(root)
+        ft = tkFont.Font(family='Times', size=10)
+        self.change_checkbox["font"] = ft
+        self.change_checkbox["fg"] = "#333333"
+        self.change_checkbox["justify"] = "center"
+        self.change_checkbox["text"] = "With change door"
+        self.change_checkbox.place(x=370, y=440, width=150, height=25)
+        self.change_checkbox["offvalue"] = "0"
+        self.change_checkbox["onvalue"] = "1"
+        self.change_checkbox["command"] = self.checkbox_check
+
     def btn1_click(self):
         self.controller.btn1_click()
 
@@ -90,3 +113,9 @@ class GameView:
 
     def btn3_click(self):
         self.controller.btn3_click()
+
+    def btn_simulate_click(self):
+        self.controller.simulate(self.trigger_change)
+
+    def checkbox_check(self):
+        self.trigger_change = not self.trigger_change
