@@ -24,7 +24,6 @@ class GameModel:
     def door_selection(self, door_index):
 
         if self.stage == 2:
-            self.stage = 0
             self.reset_game()
             return
         if self.stage == 1:
@@ -58,7 +57,6 @@ class GameModel:
 
     def door_selection_simulation(self, door_index):
         if self.stage == 2:
-            self.stage = 0
             self.reset_game_simulate()
             return
         if self.stage == 1:
@@ -84,12 +82,20 @@ class GameModel:
         self.controller.btn_reset_lbls()
         for i in range(3):
             self.controller.btn_change_image(i, self.door_photo)
+        self.stage = 0
+
+    def reset_stats(self):
+        self.reset_game()
+        self.wins = 0
+        self.losses = 0
+        self.controller.stats_change_lbl(0, 0)
 
     def reset_game_simulate(self):
         self.l1 = ["goat", "car", "goat"]
         random.shuffle(self.l1)
         self.ci = self.l1.index("car")
         self.l2 = []  # indices that got the goat
+        self.stage = 0
 
     def simulate(self, iterations):
         for i in range(iterations):

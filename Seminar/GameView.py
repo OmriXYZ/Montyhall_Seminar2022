@@ -68,6 +68,17 @@ class GameView:
         self.btn_simulate.place(x=225 + 150, y=400, width=70, height=25)
         self.btn_simulate["command"] = self.btn_simulate_click
 
+        self.btn_reset = tk.Button(root)
+        self.btn_reset["anchor"] = "center"
+        self.btn_reset["bg"] = "#f0f0f0"
+        ft = tkFont.Font(family='Arial', size=10)
+        self.btn_reset["font"] = ft
+        self.btn_reset["fg"] = "#000000"
+        self.btn_reset["justify"] = "center"
+        self.btn_reset["text"] = "reset game"
+        self.btn_reset.place(x=225 + 150 + 150, y=400 + 65, width=70, height=25)
+        self.btn_reset["command"] = self.btn_reset_click
+
         self.toplbl = tk.Label(root)
         ft = tkFont.Font(family='Arial', size=10)
         self.toplbl["font"] = ft
@@ -85,14 +96,20 @@ class GameView:
         ft = tkFont.Font(family='Arial', size=10)
         self.winslbl["font"] = ft
         self.winslbl["justify"] = "left"
-        self.winslbl["text"] = "wins: 0"
+        self.winslbl["text"] = "Wins: 0"
         self.winslbl.place(x=50, y=380, width=100, height=20)
         self.losseslbl = tk.Label(root)
         ft = tkFont.Font(family='Arial', size=10)
         self.losseslbl["font"] = ft
         self.losseslbl["justify"] = "left"
-        self.losseslbl["text"] = "losses: 0"
+        self.losseslbl["text"] = "Losses: 0"
         self.losseslbl.place(x=50, y=410, width=100, height=20)
+        self.winratelbl = tk.Label(root)
+        ft = tkFont.Font(family='Arial', size=10)
+        self.winratelbl["font"] = ft
+        self.winratelbl["justify"] = "left"
+        self.winratelbl["text"] = "Win Rate: 0%"
+        self.winratelbl.place(x=50, y=440, width=110, height=20)
 
         self.trigger_change = False
         self.change_checkbox = tk.Checkbutton(root)
@@ -131,3 +148,6 @@ class GameView:
 
     def checkbox_check(self):
         self.trigger_change = not self.trigger_change
+
+    def btn_reset_click(self):
+        self.controller.btn_reset_game()

@@ -30,8 +30,12 @@ class Controller():
         self.view.toplbl["text"] = str
 
     def stats_change_lbl(self, wins, losses):
-        self.view.winslbl["text"] = "wins: {wins}".format(wins=wins)
-        self.view.losseslbl["text"] = "losses: {losses}".format(losses=losses)
+        sumstats = wins + losses
+        winrate = (wins / sumstats) * 100 if sumstats != 0 else 0
+
+        self.view.winslbl["text"] = "Wins: {wins}".format(wins=wins)
+        self.view.losseslbl["text"] = "Losses: {losses}".format(losses=losses)
+        self.view.winratelbl["text"] = "Win Rate: {winrate}%".format(winrate=round(winrate, 2))
         self.plotStat.update(wins, losses)
         self.plotStat.showPlot(self.root)
 
@@ -48,3 +52,6 @@ class Controller():
             self.model.simulateWithChange(iter)
         else:
             self.model.simulateWithNoChange(iter)
+
+    def btn_reset_game(self):
+        self.model.reset_stats()
