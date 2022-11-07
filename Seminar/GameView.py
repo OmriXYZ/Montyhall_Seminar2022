@@ -1,13 +1,14 @@
 import tkinter as tk
 import tkinter.font as tkFont
 
+
 class GameView:
     def __init__(self, root, controller):
         self.controller = controller
 
         root.title("undefined")
         # setting window size
-        width = 600
+        width = 1200
         height = 500
         screenwidth = root.winfo_screenwidth()
         screenheight = root.winfo_screenheight()
@@ -56,6 +57,28 @@ class GameView:
         self.btns.append(self.btn2)
         self.btns.append(self.btn3)
 
+        self.btn_simulate = tk.Button(root)
+        self.btn_simulate["anchor"] = "center"
+        self.btn_simulate["bg"] = "#f0f0f0"
+        ft = tkFont.Font(family='Arial', size=10)
+        self.btn_simulate["font"] = ft
+        self.btn_simulate["fg"] = "#000000"
+        self.btn_simulate["justify"] = "center"
+        self.btn_simulate["text"] = "simulate"
+        self.btn_simulate.place(x=225 + 150, y=400, width=70, height=25)
+        self.btn_simulate["command"] = self.btn_simulate_click
+
+        self.btn_reset = tk.Button(root)
+        self.btn_reset["anchor"] = "center"
+        self.btn_reset["bg"] = "#f0f0f0"
+        ft = tkFont.Font(family='Arial', size=10)
+        self.btn_reset["font"] = ft
+        self.btn_reset["fg"] = "#000000"
+        self.btn_reset["justify"] = "center"
+        self.btn_reset["text"] = "reset game"
+        self.btn_reset.place(x=225 + 150 + 150, y=400 + 65, width=70, height=25)
+        self.btn_reset["command"] = self.btn_reset_click
+
         self.toplbl = tk.Label(root)
         ft = tkFont.Font(family='Arial', size=10)
         self.toplbl["font"] = ft
@@ -73,14 +96,43 @@ class GameView:
         ft = tkFont.Font(family='Arial', size=10)
         self.winslbl["font"] = ft
         self.winslbl["justify"] = "left"
-        self.winslbl["text"] = "wins: 0"
+        self.winslbl["text"] = "Wins: 0"
         self.winslbl.place(x=50, y=380, width=100, height=20)
         self.losseslbl = tk.Label(root)
         ft = tkFont.Font(family='Arial', size=10)
         self.losseslbl["font"] = ft
         self.losseslbl["justify"] = "left"
-        self.losseslbl["text"] = "losses: 0"
+        self.losseslbl["text"] = "Losses: 0"
         self.losseslbl.place(x=50, y=410, width=100, height=20)
+        self.winratelbl = tk.Label(root)
+        ft = tkFont.Font(family='Arial', size=10)
+        self.winratelbl["font"] = ft
+        self.winratelbl["justify"] = "left"
+        self.winratelbl["text"] = "Win Rate: 0%"
+        self.winratelbl.place(x=50, y=440, width=110, height=20)
+
+        self.trigger_change = False
+        self.change_checkbox = tk.Checkbutton(root)
+        ft = tkFont.Font(family='Times', size=10)
+        self.change_checkbox["font"] = ft
+        self.change_checkbox["fg"] = "#333333"
+        self.change_checkbox["justify"] = "center"
+        self.change_checkbox["text"] = "With change door"
+        self.change_checkbox.place(x=360, y=440, width=150, height=25)
+        self.change_checkbox["offvalue"] = "0"
+        self.change_checkbox["onvalue"] = "1"
+        self.change_checkbox["command"] = self.checkbox_check
+
+        self.amount_input = tk.Entry(root)
+        self.amount_input["textvariable"] = 'amount'
+        self.amount_input.place(x=460, y=400, width=100, height=25)
+
+        self.amountlbl = tk.Label(root)
+        ft = tkFont.Font(family='Arial', size=10)
+        self.amountlbl["font"] = ft
+        self.amountlbl["justify"] = "center"
+        self.amountlbl["text"] = "Iterations:"
+        self.amountlbl.place(x=440, y=380, width=100, height=15)
 
     def btn1_click(self):
         self.controller.btn1_click()
@@ -90,3 +142,12 @@ class GameView:
 
     def btn3_click(self):
         self.controller.btn3_click()
+
+    def btn_simulate_click(self):
+        self.controller.simulate(self.trigger_change, int(self.amount_input.get()))
+
+    def checkbox_check(self):
+        self.trigger_change = not self.trigger_change
+
+    def btn_reset_click(self):
+        self.controller.btn_reset_game()
