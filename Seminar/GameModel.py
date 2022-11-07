@@ -64,10 +64,11 @@ class GameModel:
                     self.l2.append(i)
             if self.l2 == 2:
                 random.shuffle(self.l2)
-            self.controller.toplbl_change_lbl("There is a goat in: {door}\nDo you want to keep your choice or change it?".format(door=self.l2[0]))
+            self.controller.toplbl_change_lbl("Do you want to keep your choice or change it?")
             self.controller.btn_change_image(self.l2[0], self.goat_photo)
             self.controller.btn_change_lbl(self.l2[0], "goat")
             self.controller.change_doorlbl(door_index, "First Choice")
+            self.controller.change_doorlbl(self.l2[0], "There is a goat here")
             self.soundManger.goat.play()
             self.stage += 1
             self.controller.letPC_do_thechoice()

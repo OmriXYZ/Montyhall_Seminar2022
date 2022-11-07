@@ -37,7 +37,7 @@ class GameView:
         self.lbl1["font"] = ft
         self.lbl1["justify"] = "center"
         self.lbl1["text"] = ""
-        self.lbl1.place(x=78, y=320, width=90, height=20)
+        self.lbl1.place(x=78, y=320, width=115, height=20)
 
         self.btn2 = tk.Button(root)
         self.btn2["anchor"] = "center"
@@ -55,7 +55,7 @@ class GameView:
         self.lbl2["font"] = ft
         self.lbl2["justify"] = "center"
         self.lbl2["text"] = ""
-        self.lbl2.place(x=78 + 175, y=320, width=90, height=20)
+        self.lbl2.place(x=78 + 175, y=320, width=115, height=20)
 
         self.btn3 = tk.Button(root)
         self.btn3["anchor"] = "center"
@@ -73,7 +73,7 @@ class GameView:
         self.lbl3["font"] = ft
         self.lbl3["justify"] = "center"
         self.lbl3["text"] = ""
-        self.lbl3.place(x=78 + 175*2, y=320, width=90, height=20)
+        self.lbl3.place(x=78 + 175*2, y=320, width=115, height=20)
 
         self.doorlbls = []
         self.doorlbls.append(self.lbl1)
