@@ -5,8 +5,9 @@ import tkinter.font as tkFont
 class GameView:
     def __init__(self, root, controller):
         self.controller = controller
+        root.title("Monty Hall")
+        # root.call('wm', 'attributes', '.', '-topmost', '1')
 
-        root.title("undefined")
         # setting window size
         width = 1200
         height = 500
@@ -65,7 +66,7 @@ class GameView:
         self.btn_simulate["fg"] = "#000000"
         self.btn_simulate["justify"] = "center"
         self.btn_simulate["text"] = "simulate"
-        self.btn_simulate.place(x=225 + 150, y=400, width=70, height=25)
+        self.btn_simulate.place(x=225 + 80, y=400+30, width=140, height=25)
         self.btn_simulate["command"] = self.btn_simulate_click
 
         self.btn_reset = tk.Button(root)
@@ -84,7 +85,7 @@ class GameView:
         self.toplbl["font"] = ft
         self.toplbl["justify"] = "center"
         self.toplbl["text"] = "Pick one of three doors"
-        self.toplbl.place(x=100, y=30, width=400, height=40)
+        self.toplbl.place(x=100, y=15, width=400, height=40)
 
         self.statslbl = tk.Label(root)
         ft = tkFont.Font(family='Arial', size=10)
@@ -118,21 +119,41 @@ class GameView:
         self.change_checkbox["fg"] = "#333333"
         self.change_checkbox["justify"] = "center"
         self.change_checkbox["text"] = "With change door"
-        self.change_checkbox.place(x=360, y=440, width=150, height=25)
+        self.change_checkbox.place(x=242, y=375, width=150, height=25)
         self.change_checkbox["offvalue"] = "0"
         self.change_checkbox["onvalue"] = "1"
         self.change_checkbox["command"] = self.checkbox_check
 
+        self.trigger_random_simulate = False
+        self.rand_checkbox = tk.Checkbutton(root)
+        ft = tkFont.Font(family='Times', size=10)
+        self.rand_checkbox["font"] = ft
+        self.rand_checkbox["fg"] = "#333333"
+        self.rand_checkbox["justify"] = "center"
+        self.rand_checkbox["text"] = "With Random door opening/closing"
+        self.rand_checkbox.place(x=252, y=400, width=225, height=25)
+        self.rand_checkbox["offvalue"] = "0"
+        self.rand_checkbox["onvalue"] = "1"
+        self.rand_checkbox["command"] = self.checkbox_randomChoice
+
         self.amount_input = tk.Entry(root)
         self.amount_input["textvariable"] = 'amount'
-        self.amount_input.place(x=460, y=400, width=100, height=25)
+        self.amount_input.place(x=345, y=350, width=100, height=25)
 
         self.amountlbl = tk.Label(root)
         ft = tkFont.Font(family='Arial', size=10)
         self.amountlbl["font"] = ft
         self.amountlbl["justify"] = "center"
         self.amountlbl["text"] = "Iterations:"
-        self.amountlbl.place(x=440, y=380, width=100, height=15)
+        self.amountlbl.place(x=440-200, y=380 - 30, width=100, height=15)
+
+        self.exceptlbl = tk.Label(root)
+        ft = tkFont.Font(family='Arial', size=10)
+        self.exceptlbl["font"] = ft
+        self.exceptlbl["justify"] = "left"
+        self.exceptlbl["text"] = ""
+        self.exceptlbl["fg"] = '#be4d25'
+        self.exceptlbl.place(x=440-260, y=460, width=330, height=17)
 
     def btn1_click(self):
         self.controller.btn1_click()
@@ -144,10 +165,34 @@ class GameView:
         self.controller.btn3_click()
 
     def btn_simulate_click(self):
-        self.controller.simulate(self.trigger_change, int(self.amount_input.get()))
+        if not self.trigger_random_simulate:
+            self.controller.simulate(self.trigger_change, self.amount_input.get())
+        else:
+            self.controller.simulate_random_choice(self.amount_input.get())
 
     def checkbox_check(self):
         self.trigger_change = not self.trigger_change
 
+    def checkbox_randomChoice(self):
+        self.trigger_random_simulate = not self.trigger_random_simulate
+        self.change_checkbox['state'] = "disabled" if self.trigger_random_simulate else "active"
+
     def btn_reset_click(self):
         self.controller.btn_reset_game()
+
+    def change_exceptionlbl(self, err_msg):
+        self.exceptlbl["text"] = err_msg
+
+    def random_choice(self):
+        self.controller.random_choice_fromview()
+    def create_btn_letChoiceToPC(self, root):
+        self.btn_letPC_Choice = tk.Button(root)
+        self.btn_letPC_Choice["anchor"] = "center"
+        self.btn_letPC_Choice["bg"] = "#f0f0f0"
+        ft = tkFont.Font(family='Arial', size=10)
+        self.btn_letPC_Choice["font"] = ft
+        self.btn_letPC_Choice["fg"] = "#000000"
+        self.btn_letPC_Choice["justify"] = "center"
+        self.btn_letPC_Choice["text"] = "Let the computer make the choice for you"
+        self.btn_letPC_Choice.place(x=175, y=60, width=250, height=25)
+        self.btn_letPC_Choice["command"] = self.random_choice
