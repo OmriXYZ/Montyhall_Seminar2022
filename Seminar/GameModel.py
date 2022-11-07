@@ -54,6 +54,7 @@ class GameModel:
             self.controller.btn_change_image(self.l2[0], self.goat_photo)
             self.controller.btn_change_lbl(self.l2[0], "goat")
             self.stage += 1
+            self.controller.letPC_do_thechoice()
 
     def door_selection_simulation(self, door_index):
         if self.stage == 2:
@@ -127,3 +128,22 @@ class GameModel:
             self.door_selection_simulation(choice)
             self.door_selection_simulation(choice)
         self.controller.stats_change_lbl(self.wins, self.losses)
+
+    def simulateWithRandChange(self, iterations):
+        for i in range(iterations):
+            choice = random.randint(0, 2)
+            self.door_selection_simulation(choice)
+            if random.choice([True, False]):
+                for j in range(3):
+                    if j != choice and j != self.l2[0]:
+                        choice = j
+                        break
+            self.door_selection_simulation(choice)
+            self.door_selection_simulation(choice)
+        self.controller.stats_change_lbl(self.wins, self.losses)
+
+    def safeRandChoose(self):
+        choice = random.randint(0, 2)
+        while choice == self.l2[0]:
+            choice = random.randint(0, 2)
+        self.door_selection(choice)
