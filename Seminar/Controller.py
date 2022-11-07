@@ -85,3 +85,6 @@ class Controller():
 
     def delete_btn_letChoiceToPC(self):
         self.view.btn_letPC_Choice.destroy()
+
+    def change_doorlbl(self, i, str):
+        self.view.doorlbls[i]["text"] = str

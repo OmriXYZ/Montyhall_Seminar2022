@@ -53,7 +53,7 @@ class GameModel:
                 self.soundManger.lose.play()
 
             self.stage += 1
-
+            self.controller.change_doorlbl(door_index, "Second Choice")
             self.controller.stats_change_lbl(self.wins, self.losses)
             # print("ratio: ", self.wins/self.losses)
             return
@@ -67,6 +67,7 @@ class GameModel:
             self.controller.toplbl_change_lbl("There is a goat in: {door}\nDo you want to keep your choice or change it?".format(door=self.l2[0]))
             self.controller.btn_change_image(self.l2[0], self.goat_photo)
             self.controller.btn_change_lbl(self.l2[0], "goat")
+            self.controller.change_doorlbl(door_index, "First Choice")
             self.soundManger.goat.play()
             self.stage += 1
             self.controller.letPC_do_thechoice()
@@ -98,6 +99,8 @@ class GameModel:
         self.controller.btn_reset_lbls()
         for i in range(3):
             self.controller.btn_change_image(i, self.door_photo)
+        for i in range(3):
+            self.controller.change_doorlbl(i, "")
         self.stage = 0
 
     def reset_stats(self):

@@ -32,6 +32,13 @@ class GameView:
         self.btn1.place(x=50, y=90, width=150, height=230)
         self.btn1["command"] = self.btn1_click
 
+        self.lbl1 = tk.Label(root)
+        ft = tkFont.Font(family='Arial', size=10)
+        self.lbl1["font"] = ft
+        self.lbl1["justify"] = "center"
+        self.lbl1["text"] = ""
+        self.lbl1.place(x=78, y=320, width=90, height=20)
+
         self.btn2 = tk.Button(root)
         self.btn2["anchor"] = "center"
         self.btn2["bg"] = "#f0f0f0"
@@ -43,6 +50,13 @@ class GameView:
         self.btn2.place(x=225, y=90, width=150, height=230)
         self.btn2["command"] = self.btn2_click
 
+        self.lbl2 = tk.Label(root)
+        ft = tkFont.Font(family='Arial', size=10)
+        self.lbl2["font"] = ft
+        self.lbl2["justify"] = "center"
+        self.lbl2["text"] = ""
+        self.lbl2.place(x=78 + 175, y=320, width=90, height=20)
+
         self.btn3 = tk.Button(root)
         self.btn3["anchor"] = "center"
         self.btn3["bg"] = "#f0f0f0"
@@ -53,6 +67,18 @@ class GameView:
         self.btn3["text"] = 2
         self.btn3.place(x=225 + 150 + 25, y=90, width=150, height=230)
         self.btn3["command"] = self.btn3_click
+
+        self.lbl3 = tk.Label(root)
+        ft = tkFont.Font(family='Arial', size=10)
+        self.lbl3["font"] = ft
+        self.lbl3["justify"] = "center"
+        self.lbl3["text"] = ""
+        self.lbl3.place(x=78 + 175*2, y=320, width=90, height=20)
+
+        self.doorlbls = []
+        self.doorlbls.append(self.lbl1)
+        self.doorlbls.append(self.lbl2)
+        self.doorlbls.append(self.lbl3)
 
         self.btns.append(self.btn1)
         self.btns.append(self.btn2)
