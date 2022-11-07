@@ -35,6 +35,7 @@ class GameModel:
             self.soundManger.lose.stop()
             return
         if self.stage == 1:
+            self.controller.delete_btn_letChoiceToPC()
             if door_index == self.l2[0]:
                 print("You cant choose goat in number: ", self.l2[0])
                 return

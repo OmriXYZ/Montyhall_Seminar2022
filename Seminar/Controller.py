@@ -82,3 +82,6 @@ class Controller():
 
     def random_choice_fromview(self):
         self.model.safeRandChoose()
+
+    def delete_btn_letChoiceToPC(self):
+        self.view.btn_letPC_Choice.destroy()
