@@ -15,6 +15,6 @@ class SoundManager:
 
         self.click.set_volume(0.3)
         self.goat.set_volume(0.3)
-        self.lose.set_volume(0.3)
+        self.lose.set_volume(0.7)
         self.win.set_volume(0.3)
         self.choose.set_volume(0.3)

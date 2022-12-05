@@ -6,6 +6,7 @@ class GameView:
     def __init__(self, root, controller):
         self.controller = controller
         root.title("Monty Hall")
+        root.call('wm', 'attributes', '.', '-topmost', '1')
         # setting window size
         width = 1200
         height = 500
@@ -203,10 +204,7 @@ class GameView:
         self.controller.btn3_click()
 
     def btn_simulate_click(self):
-        if not self.trigger_random_simulate:
-            self.controller.simulate(self.trigger_change, self.amount_input.get())
-        else:
-            self.controller.simulate_random_choice(self.amount_input.get())
+        self.controller.simulate(self.trigger_change, self.amount_input.get(), self.trigger_random_simulate)
 
     def checkbox_check(self):
         self.trigger_change = not self.trigger_change
