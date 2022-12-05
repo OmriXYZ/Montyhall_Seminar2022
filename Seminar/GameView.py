@@ -6,21 +6,19 @@ class GameView:
     def __init__(self, root, controller):
         self.controller = controller
         root.title("Monty Hall")
-        # root.call('wm', 'attributes', '.', '-topmost', '1')
-
         # setting window size
         width = 1200
         height = 500
         screenwidth = root.winfo_screenwidth()
         screenheight = root.winfo_screenheight()
-        alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
-        root.geometry(alignstr)
+        align_str = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
+        root.geometry(align_str)
         root.resizable(width=False, height=False)
 
-        self.door_photo = tk.PhotoImage(file="door.png")
-
+        self.door_photo = tk.PhotoImage(file="images/door.png")
         self.btns = []
 
+        # Making the first door
         self.btn1 = tk.Button(root)
         self.btn1["anchor"] = "center"
         self.btn1["bg"] = "#f0f0f0"
@@ -32,6 +30,7 @@ class GameView:
         self.btn1.place(x=50, y=90, width=150, height=230)
         self.btn1["command"] = self.btn1_click
 
+        # Making subtext of the first door
         self.lbl1 = tk.Label(root)
         ft = tkFont.Font(family='Arial', size=10)
         self.lbl1["font"] = ft
@@ -39,6 +38,7 @@ class GameView:
         self.lbl1["text"] = ""
         self.lbl1.place(x=78, y=320, width=115, height=20)
 
+        # Making the second door
         self.btn2 = tk.Button(root)
         self.btn2["anchor"] = "center"
         self.btn2["bg"] = "#f0f0f0"
@@ -50,6 +50,7 @@ class GameView:
         self.btn2.place(x=225, y=90, width=150, height=230)
         self.btn2["command"] = self.btn2_click
 
+        # Making subtext of the second door
         self.lbl2 = tk.Label(root)
         ft = tkFont.Font(family='Arial', size=10)
         self.lbl2["font"] = ft
@@ -57,6 +58,7 @@ class GameView:
         self.lbl2["text"] = ""
         self.lbl2.place(x=78 + 175, y=320, width=115, height=20)
 
+        # Making the third door
         self.btn3 = tk.Button(root)
         self.btn3["anchor"] = "center"
         self.btn3["bg"] = "#f0f0f0"
@@ -68,6 +70,7 @@ class GameView:
         self.btn3.place(x=225 + 150 + 25, y=90, width=150, height=230)
         self.btn3["command"] = self.btn3_click
 
+        # Making subtext of the third door
         self.lbl3 = tk.Label(root)
         ft = tkFont.Font(family='Arial', size=10)
         self.lbl3["font"] = ft
@@ -75,15 +78,18 @@ class GameView:
         self.lbl3["text"] = ""
         self.lbl3.place(x=78 + 175*2, y=320, width=115, height=20)
 
+        # Appends all subtext to a list
         self.doorlbls = []
         self.doorlbls.append(self.lbl1)
         self.doorlbls.append(self.lbl2)
         self.doorlbls.append(self.lbl3)
 
+        # Appends all doors to a list
         self.btns.append(self.btn1)
         self.btns.append(self.btn2)
         self.btns.append(self.btn3)
 
+        # Make the simulate button
         self.btn_simulate = tk.Button(root)
         self.btn_simulate["anchor"] = "center"
         self.btn_simulate["bg"] = "#f0f0f0"
@@ -95,6 +101,7 @@ class GameView:
         self.btn_simulate.place(x=225 + 80, y=400+30, width=140, height=25)
         self.btn_simulate["command"] = self.btn_simulate_click
 
+        # Make the reset game button
         self.btn_reset = tk.Button(root)
         self.btn_reset["anchor"] = "center"
         self.btn_reset["bg"] = "#f0f0f0"
@@ -106,6 +113,7 @@ class GameView:
         self.btn_reset.place(x=225 + 150 + 150, y=400 + 65, width=70, height=25)
         self.btn_reset["command"] = self.btn_reset_click
 
+        # Make the top instruction label
         self.toplbl = tk.Label(root)
         ft = tkFont.Font(family='Arial', size=10)
         self.toplbl["font"] = ft
@@ -113,6 +121,7 @@ class GameView:
         self.toplbl["text"] = "Pick one of three doors"
         self.toplbl.place(x=100, y=15, width=400, height=40)
 
+        # Make the stats labels
         self.statslbl = tk.Label(root)
         ft = tkFont.Font(family='Arial', size=10)
         self.statslbl["font"] = ft
@@ -138,6 +147,7 @@ class GameView:
         self.winratelbl["text"] = "Win Rate: 0%"
         self.winratelbl.place(x=50, y=440, width=110, height=20)
 
+        # Make the checkbox for changing the door
         self.trigger_change = False
         self.change_checkbox = tk.Checkbutton(root)
         ft = tkFont.Font(family='Times', size=10)
@@ -150,6 +160,7 @@ class GameView:
         self.change_checkbox["onvalue"] = "1"
         self.change_checkbox["command"] = self.checkbox_check
 
+        # Make the checkbox for random changing the door
         self.trigger_random_simulate = False
         self.rand_checkbox = tk.Checkbutton(root)
         ft = tkFont.Font(family='Times', size=10)
@@ -162,6 +173,7 @@ class GameView:
         self.rand_checkbox["onvalue"] = "1"
         self.rand_checkbox["command"] = self.checkbox_randomChoice
 
+        # Make the input text for simulations
         self.amount_input = tk.Entry(root)
         self.amount_input["textvariable"] = 'amount'
         self.amount_input.place(x=345, y=350, width=100, height=25)
@@ -211,6 +223,7 @@ class GameView:
 
     def random_choice(self):
         self.controller.random_choice_fromview()
+
     def create_btn_letChoiceToPC(self, root):
         self.btn_letPC_Choice = tk.Button(root)
         self.btn_letPC_Choice["anchor"] = "center"
