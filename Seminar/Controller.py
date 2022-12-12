@@ -47,35 +47,26 @@ class Controller():
             btn["text"] = i
         self.view.toplbl["text"] = "Pick one of three doors"
 
-    def simulate(self, changedoor, iter):
+    def simulate(self, changedoor, iter, with_random):
         try:
             iter = int(iter)
-        except:
+        except ValueError:
             self.view.change_exceptionlbl('Iterations needs to be an integer')
-            raise ValueError('iterations need to be integer')
+            return
         if iter > 1000000 or iter <= 0:
             self.view.change_exceptionlbl('Iterations needs to be in range from 1 to 1,000,000')
-            raise Exception('iterations must be positive number and less than 1,000,000')
+            return
         self.btn_reset_game()
-        if changedoor:
+        if with_random:
+            self.model.simulateWithRandChange(iter)
+        elif changedoor:
             self.model.simulateWithChange(iter)
         else:
             self.model.simulateWithNoChange(iter)
 
-    def simulate_random_choice(self, iter):
-        try:
-            iter = int(iter)
-        except:
-            self.view.change_exceptionlbl('Iterations needs to be an integer')
-            raise ValueError('iterations need to be integer')
-        if iter > 1000000 or iter <= 0:
-            self.view.change_exceptionlbl('Iterations needs to be in range from 1 to 1,000,000')
-            raise Exception('iterations must be positive number and less than 1,000,000')
-        self.btn_reset_game()
-        self.model.simulateWithRandChange(iter)
-
     def btn_reset_game(self):
         self.model.reset_stats()
+        self.view.change_exceptionlbl('')
 
     def letPC_do_thechoice(self):
         self.view.create_btn_letChoiceToPC(self.root)
@@ -85,3 +76,6 @@ class Controller():
 
     def delete_btn_letChoiceToPC(self):
         self.view.btn_letPC_Choice.destroy()
+
+    def change_doorlbl(self, i, str):
+        self.view.doorlbls[i]["text"] = str

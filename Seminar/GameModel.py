@@ -2,7 +2,6 @@ import random
 from tkinter import PhotoImage
 from SoundManager import SoundManager
 import pygame
-from pygame.mixer import Sound
 pygame.mixer.pre_init(frequency=44100, size=-16, channels=1, buffer=512)
 pygame.mixer.init()
 
@@ -19,13 +18,14 @@ class GameModel:
         self.wins = 0
         self.losses = 0
 
-        self.goat_photo = PhotoImage(file="goat2.png")
-        self.car_photo = PhotoImage(file="car.png")
-        self.door_photo = PhotoImage(file="door.png")
+        self.goat_photo = PhotoImage(file="images/goat.png")
+        self.car_photo = PhotoImage(file="images/car.png")
+        self.door_photo = PhotoImage(file="images/door.png")
 
         for i in range(3):
             self.controller.btn_change_image(i, self.door_photo)
 
+    # Algorithm for selecting door manually
     def door_selection(self, door_index):
 
         if self.stage == 2:
@@ -53,7 +53,7 @@ class GameModel:
                 self.soundManger.lose.play()
 
             self.stage += 1
-
+            self.controller.change_doorlbl(door_index, "Second Choice")
             self.controller.stats_change_lbl(self.wins, self.losses)
             # print("ratio: ", self.wins/self.losses)
             return
@@ -64,13 +64,16 @@ class GameModel:
                     self.l2.append(i)
             if self.l2 == 2:
                 random.shuffle(self.l2)
-            self.controller.toplbl_change_lbl("There is a goat in: {door}\nDo you want to keep your choice or change it?".format(door=self.l2[0]))
+            self.controller.toplbl_change_lbl("Do you want to keep your choice or change it?")
             self.controller.btn_change_image(self.l2[0], self.goat_photo)
             self.controller.btn_change_lbl(self.l2[0], "goat")
+            self.controller.change_doorlbl(door_index, "First Choice")
+            self.controller.change_doorlbl(self.l2[0], "There is a goat here")
             self.soundManger.goat.play()
             self.stage += 1
             self.controller.letPC_do_thechoice()
 
+    # Algorithm for selecting door automatically
     def door_selection_simulation(self, door_index):
         if self.stage == 2:
             self.reset_game_simulate()
@@ -98,6 +101,8 @@ class GameModel:
         self.controller.btn_reset_lbls()
         for i in range(3):
             self.controller.btn_change_image(i, self.door_photo)
+        for i in range(3):
+            self.controller.change_doorlbl(i, "")
         self.stage = 0
 
     def reset_stats(self):
@@ -124,6 +129,7 @@ class GameModel:
                     break
             self.door_selection(choice)
 
+    # selecting door automatically by not changing the first select
     def simulateWithNoChange(self, iterations):
         for i in range(iterations):
             choice = random.randint(0, 2)
@@ -132,6 +138,7 @@ class GameModel:
             self.door_selection_simulation(choice)
         self.controller.stats_change_lbl(self.wins, self.losses)
 
+    # selecting door automatically by changing the first select
     def simulateWithChange(self, iterations):
         for i in range(iterations):
             choice = random.randint(0, 2)
@@ -144,6 +151,7 @@ class GameModel:
             self.door_selection_simulation(choice)
         self.controller.stats_change_lbl(self.wins, self.losses)
 
+    # selecting door automatically by random changing the first select
     def simulateWithRandChange(self, iterations):
         for i in range(iterations):
             choice = random.randint(0, 2)
