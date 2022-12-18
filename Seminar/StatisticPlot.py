@@ -28,7 +28,7 @@ class plotStat:
         self.a = self.f.add_subplot(111)
         self.a.bar(self.stats.keys(), self.stats.values())
         self.canvas = FigureCanvasTkAgg(self.f, master=root)
-        self.canvas.get_tk_widget().pack(anchor="e")
+        self.canvas.get_tk_widget().place(x=700, y=0)
         self.canvas.draw()
 
 

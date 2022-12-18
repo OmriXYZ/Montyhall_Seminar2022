@@ -36,6 +36,10 @@ class Controller():
         self.view.winslbl["text"] = "Wins: {wins}".format(wins=wins)
         self.view.losseslbl["text"] = "Losses: {losses}".format(losses=losses)
         self.view.winratelbl["text"] = "Win Rate: {winrate}%".format(winrate=round(winrate, 2))
+
+    def stats_change_lbl_simulate(self, wins, losses, changedoor):
+        self.stats_change_lbl(wins, losses)
+        self.view.changedoorlbl["text"] = f"The door changed randomly: {changedoor} times".format(changedoor=changedoor)
         self.plotStat.update(wins, losses)
         self.plotStat.showPlot(self.root)
 
@@ -47,7 +51,7 @@ class Controller():
             btn["text"] = i
         self.view.toplbl["text"] = "Pick one of three doors"
 
-    def simulate(self, changedoor, iter, with_random):
+    def simulate(self, changedoor, iter):
         try:
             iter = int(iter)
         except ValueError:
@@ -57,25 +61,16 @@ class Controller():
             self.view.change_exceptionlbl('Iterations needs to be in range from 1 to 1,000,000')
             return
         self.btn_reset_game()
-        if with_random:
-            self.model.simulateWithRandChange(iter)
-        elif changedoor:
+        if changedoor == 0:
             self.model.simulateWithChange(iter)
-        else:
+        elif changedoor == 1:
             self.model.simulateWithNoChange(iter)
+        else:
+            self.model.simulateWithRandChange(iter)
 
     def btn_reset_game(self):
         self.model.reset_stats()
         self.view.change_exceptionlbl('')
-
-    def letPC_do_thechoice(self):
-        self.view.create_btn_letChoiceToPC(self.root)
-
-    def random_choice_fromview(self):
-        self.model.safeRandChoose()
-
-    def delete_btn_letChoiceToPC(self):
-        self.view.btn_letPC_Choice.destroy()
 
     def change_doorlbl(self, i, str):
         self.view.doorlbls[i]["text"] = str
