@@ -8,12 +8,7 @@ class GameView:
         root.title("Monty Hall")
         root.call('wm', 'attributes', '.', '-topmost', '1')
         # setting window size
-        width = 1200
-        height = 500
-        screenwidth = root.winfo_screenwidth()
-        screenheight = root.winfo_screenheight()
-        align_str = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
-        root.geometry(align_str)
+        self.controller.change_scale(700, 500)
         root.resizable(width=False, height=False)
 
         # Make the top instruction label
@@ -116,6 +111,7 @@ class GameView:
         self.controller.simulate(self.simulate_option, self.amount_input.get())
 
     def btn_reset_click(self):
+        self.controller.change_scale(700, 500)
         self.controller.btn_reset_game()
         self.amount_input.setvar('amount', '')
 

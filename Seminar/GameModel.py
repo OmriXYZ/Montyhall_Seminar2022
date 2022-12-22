@@ -18,6 +18,9 @@ class GameModel:
         self.wins = 0
         self.losses = 0
         self.sim_changedoor = 0
+        self.firstChoiceIndex = 0
+
+        self.lastGameFlag = False;
 
         self.goat_photo = PhotoImage(file="images/goat.png")
         self.car_photo = PhotoImage(file="images/car.png")
@@ -37,7 +40,6 @@ class GameModel:
         if self.stage == 1:
             # self.controller.delete_btn_letChoiceToPC()
             if door_index == self.l2[0]:
-                print("You cant choose goat in number: ", self.l2[0])
                 return
             elif door_index == self.ci:
                 self.soundManger.click.play()
@@ -53,11 +55,18 @@ class GameModel:
                 self.soundManger.lose.play()
 
             self.stage += 1
-            self.controller.change_doorlbl(door_index, "Second Choice")
+            if self.firstChoiceIndex == door_index:
+                self.controller.change_doorlbl(door_index, "First Choice\nSecond Choice")
+            else:
+                self.controller.change_doorlbl(door_index, "Second Choice")
             self.controller.stats_change_lbl(self.wins, self.losses)
             # print("ratio: ", self.wins/self.losses)
             return
         if self.stage == 0:
+            if self.lastGameFlag:
+                self.controller.btn_reset_game()
+                self.lastGameFlag = False
+                self.controller.change_scale(700, 500)
             self.soundManger.click.play()
             for i in range(len(self.l1)):
                 if i != self.ci and i != door_index:
@@ -71,6 +80,7 @@ class GameModel:
             self.controller.change_doorlbl(self.l2[0], "There is a goat here")
             self.soundManger.goat.play()
             self.stage += 1
+            self.firstChoiceIndex = door_index
             # self.controller.letPC_do_thechoice()
 
     # Algorithm for selecting door automatically
@@ -86,6 +96,7 @@ class GameModel:
             self.stage += 1
             return
         if self.stage == 0:
+            self.lastGameFlag = True
             for i in range(len(self.l1)):
                 if i != self.ci and i != door_index:
                     self.l2.append(i)

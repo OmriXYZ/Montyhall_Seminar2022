@@ -30,6 +30,12 @@ class Controller():
         self.view.toplbl["text"] = str
 
     def stats_change_lbl(self, wins, losses):
+        """
+
+        :param wins:
+        :param losses:
+        :return:
+        """
         sumstats = wins + losses
         winrate = (wins / sumstats) * 100 if sumstats != 0 else 0
 
@@ -61,6 +67,7 @@ class Controller():
             self.view.change_exceptionlbl('Iterations needs to be in range from 1 to 1,000,000')
             return
         self.btn_reset_game()
+        self.change_scale(1200, 500)
         if changedoor == 0:
             self.model.simulateWithChange(iter)
         elif changedoor == 1:
@@ -74,3 +81,9 @@ class Controller():
 
     def change_doorlbl(self, i, str):
         self.view.doorlbls[i]["text"] = str
+
+    def change_scale(self, width, height):
+        screenwidth = self.root.winfo_screenwidth()
+        screenheight = self.root.winfo_screenheight()
+        align_str = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
+        self.root.geometry(align_str)
