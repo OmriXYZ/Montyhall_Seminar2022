@@ -67,7 +67,14 @@ class GameModel:
             else:
                 self.controller.change_doorlbl(door_index, "Second Choice")
             self.controller.stats_change_lbl(self.wins, self.losses)
-            # print("ratio: ", self.wins/self.losses)
+
+            remainDoorIndex = 3 - self.l2[0] - door_index
+            if self.l1[remainDoorIndex] == 'goat':
+                self.controller.btn_change_image(remainDoorIndex, self.goat_photo)
+            else:
+                self.controller.btn_change_image(remainDoorIndex, self.car_photo)
+            self.controller.change_doorlbl(remainDoorIndex, "The remaining option")
+
             return
         if self.stage == 0:
             if self.lastGameFlag:
