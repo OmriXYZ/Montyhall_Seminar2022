@@ -8,6 +8,9 @@ pygame.mixer.init()
 
 class GameModel:
     def __init__(self, controller):
+        """
+        initialize Game model variables
+        """
         self.controller = controller
         self.soundManger = SoundManager()
         self.l1 = ["goat", "car", "goat"]
@@ -17,6 +20,10 @@ class GameModel:
         self.stage = 0
         self.wins = 0
         self.losses = 0
+        self.sim_changedoor = 0
+        self.firstChoiceIndex = 0
+
+        self.lastGameFlag = False;
 
         self.goat_photo = PhotoImage(file="images/goat.png")
         self.car_photo = PhotoImage(file="images/car.png")
@@ -25,9 +32,12 @@ class GameModel:
         for i in range(3):
             self.controller.btn_change_image(i, self.door_photo)
 
-    # Algorithm for selecting door manually
     def door_selection(self, door_index):
-
+        """
+        Algorithm for the manual game option in the program, determined what happens each round.
+        :param door_index: index that determined what door the player picked each round
+        :return: None
+        """
         if self.stage == 2:
             self.reset_game()
             self.soundManger.goat.stop()
@@ -35,9 +45,8 @@ class GameModel:
             self.soundManger.lose.stop()
             return
         if self.stage == 1:
-            self.controller.delete_btn_letChoiceToPC()
+            # self.controller.delete_btn_letChoiceToPC()
             if door_index == self.l2[0]:
-                print("You cant choose goat in number: ", self.l2[0])
                 return
             elif door_index == self.ci:
                 self.soundManger.click.play()
@@ -53,11 +62,25 @@ class GameModel:
                 self.soundManger.lose.play()
 
             self.stage += 1
-            self.controller.change_doorlbl(door_index, "Second Choice")
+            if self.firstChoiceIndex == door_index:
+                self.controller.change_doorlbl(door_index, "First Choice\nSecond Choice")
+            else:
+                self.controller.change_doorlbl(door_index, "Second Choice")
             self.controller.stats_change_lbl(self.wins, self.losses)
-            # print("ratio: ", self.wins/self.losses)
+
+            remainDoorIndex = 3 - self.l2[0] - door_index
+            if self.l1[remainDoorIndex] == 'goat':
+                self.controller.btn_change_image(remainDoorIndex, self.goat_photo)
+            else:
+                self.controller.btn_change_image(remainDoorIndex, self.car_photo)
+            self.controller.change_doorlbl(remainDoorIndex, "The remaining option")
+
             return
         if self.stage == 0:
+            if self.lastGameFlag:
+                self.controller.btn_reset_game()
+                self.lastGameFlag = False
+                self.controller.change_scale(700, 500)
             self.soundManger.click.play()
             for i in range(len(self.l1)):
                 if i != self.ci and i != door_index:
@@ -71,10 +94,15 @@ class GameModel:
             self.controller.change_doorlbl(self.l2[0], "There is a goat here")
             self.soundManger.goat.play()
             self.stage += 1
-            self.controller.letPC_do_thechoice()
+            self.firstChoiceIndex = door_index
+            # self.controller.letPC_do_thechoice()
 
-    # Algorithm for selecting door automatically
     def door_selection_simulation(self, door_index):
+        """
+        Algorithm for the automatic game option in the program, determined what happens each round.
+        :param door_index: index that determined what door the simulation picked each round
+        :return: None
+        """
         if self.stage == 2:
             self.reset_game_simulate()
             return
@@ -86,6 +114,7 @@ class GameModel:
             self.stage += 1
             return
         if self.stage == 0:
+            self.lastGameFlag = True
             for i in range(len(self.l1)):
                 if i != self.ci and i != door_index:
                     self.l2.append(i)
@@ -94,6 +123,10 @@ class GameModel:
             self.stage += 1
 
     def reset_game(self):
+        """
+        Reset game variables and UI.
+        :return: None
+        """
         self.l1 = ["goat", "car", "goat"]
         random.shuffle(self.l1)
         self.ci = self.l1.index("car")
@@ -106,12 +139,21 @@ class GameModel:
         self.stage = 0
 
     def reset_stats(self):
+        """
+        Reset statistics.
+        :return: None
+        """
         self.reset_game()
         self.wins = 0
         self.losses = 0
-        self.controller.stats_change_lbl(0, 0)
+        self.sim_changedoor = 0
+        self.controller.stats_change_lbl_simulate(0, 0, 0)
 
     def reset_game_simulate(self):
+        """
+        Reset game simulation.
+        :return: None
+        """
         self.l1 = ["goat", "car", "goat"]
         random.shuffle(self.l1)
         self.ci = self.l1.index("car")
@@ -122,24 +164,32 @@ class GameModel:
         for i in range(iterations):
             choice = random.randint(0, 2)
             self.door_selection(choice)
-            while (True):
+            while True:
                 choice = random.randint(0, 2)
-                if (choice != self.l2[0]):
+                if choice != self.l2[0]:
                     self.door_selection(choice)
                     break
             self.door_selection(choice)
 
-    # selecting door automatically by not changing the first select
     def simulateWithNoChange(self, iterations):
+        """
+        Simulation with the computer not changing his first selection
+        :param iterations: how many iterations
+        :return: None
+        """
         for i in range(iterations):
             choice = random.randint(0, 2)
             self.door_selection_simulation(choice)
             self.door_selection_simulation(choice)
             self.door_selection_simulation(choice)
-        self.controller.stats_change_lbl(self.wins, self.losses)
+        self.controller.stats_change_lbl_simulate(self.wins, self.losses, 0)
 
-    # selecting door automatically by changing the first select
     def simulateWithChange(self, iterations):
+        """
+        Simulation with the computer changing his first selection
+        :param iterations: how many iterations
+        :return: None
+        """
         for i in range(iterations):
             choice = random.randint(0, 2)
             self.door_selection_simulation(choice)
@@ -149,24 +199,23 @@ class GameModel:
                     break
             self.door_selection_simulation(choice)
             self.door_selection_simulation(choice)
-        self.controller.stats_change_lbl(self.wins, self.losses)
+        self.controller.stats_change_lbl_simulate(self.wins, self.losses, iterations)
 
-    # selecting door automatically by random changing the first select
     def simulateWithRandChange(self, iterations):
+        """
+        Simulation with the computer changing or not changing its first selection randomly
+        :param iterations: how many iterations
+        :return: None
+        """
         for i in range(iterations):
             choice = random.randint(0, 2)
             self.door_selection_simulation(choice)
             if random.choice([True, False]):
+                self.sim_changedoor += 1
                 for j in range(3):
                     if j != choice and j != self.l2[0]:
                         choice = j
                         break
             self.door_selection_simulation(choice)
             self.door_selection_simulation(choice)
-        self.controller.stats_change_lbl(self.wins, self.losses)
-
-    def safeRandChoose(self):
-        choice = random.randint(0, 2)
-        while choice == self.l2[0]:
-            choice = random.randint(0, 2)
-        self.door_selection(choice)
+        self.controller.stats_change_lbl_simulate(self.wins, self.losses, self.sim_changedoor)

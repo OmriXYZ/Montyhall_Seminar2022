@@ -6,7 +6,10 @@ pygame.mixer.init()
 
 
 class SoundManager:
-    def __init__(self):  # Loading sounds
+    def __init__(self):
+        """
+        loading the sounds from the sounds folders  with Pygame modules
+        """
         self.click = Sound("sounds/Mouse-Click.mp3")
         self.goat = Sound("sounds/Goat-screaming-sound-effect.mp3")
         self.lose = Sound("sounds/lose.mp3")
