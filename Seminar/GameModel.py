@@ -63,7 +63,7 @@ class GameModel:
 
             self.stage += 1
             if self.firstChoiceIndex == door_index:
-                self.controller.change_doorlbl(door_index, "First Choice\nSecond Choice")
+                self.controller.change_doorlbl(door_index, "First Choice and \nSecond Choice")
             else:
                 self.controller.change_doorlbl(door_index, "Second Choice")
             self.controller.stats_change_lbl(self.wins, self.losses)
@@ -73,7 +73,7 @@ class GameModel:
                 self.controller.btn_change_image(remainDoorIndex, self.goat_photo)
             else:
                 self.controller.btn_change_image(remainDoorIndex, self.car_photo)
-            self.controller.change_doorlbl(remainDoorIndex, "The remaining option")
+            #self.controller.change_doorlbl(remainDoorIndex, "")
 
             return
         if self.stage == 0:
@@ -91,7 +91,7 @@ class GameModel:
             self.controller.btn_change_image(self.l2[0], self.goat_photo)
             self.controller.btn_change_lbl(self.l2[0], "goat")
             self.controller.change_doorlbl(door_index, "First Choice")
-            self.controller.change_doorlbl(self.l2[0], "There is a goat here")
+            self.controller.change_doorlbl(self.l2[0], "Dealer exposed a goat is in this door")
             self.soundManger.goat.play()
             self.stage += 1
             self.firstChoiceIndex = door_index

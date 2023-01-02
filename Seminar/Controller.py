@@ -73,9 +73,9 @@ class Controller():
     def stats_change_lbl_simulate(self, wins, losses, changedoor):
         """
 
-        :param wins: how many wins in that simulation.
-        :param losses: how many losses in that simulation.
-        :param changedoor: how many times the door changes.
+        param wins: how many wins in that simulation.
+        param losses: how many losses in that simulation.
+        param changedoor: how many times the door changes.
         :return: None
         """
         self.stats_change_lbl(wins, losses)
@@ -86,8 +86,8 @@ class Controller():
     def btn_change_image(self, index, photo):
         """
         Change the photo of the door bases of the game.
-        :param index: index of the door that needs to be changed.
-        :param photo: what photo the door should change to.
+        param index: index of the door that needs to be changed.
+        param photo: what photo the door should change to.
         :return: None.
         """
         self.view.btns[index].config(image=photo)
