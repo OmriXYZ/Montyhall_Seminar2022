@@ -57,6 +57,7 @@ class Controller():
     def stats_change_lbl(self, wins, losses):
         """
         Changing the statistics base on the win/loses
+
         :param wins: Total wins.
         :param losses: Total loses.
         :var winrate: Winrate percentage.
@@ -72,10 +73,11 @@ class Controller():
 
     def stats_change_lbl_simulate(self, wins, losses, changedoor):
         """
+        Changing labels when simulating games
 
-        param wins: how many wins in that simulation.
-        param losses: how many losses in that simulation.
-        param changedoor: how many times the door changes.
+        :param wins: how many wins in that simulation.
+        :param losses: how many losses in that simulation.
+        :param changedoor: how many times the door changes.
         :return: None
         """
         self.stats_change_lbl(wins, losses)
@@ -86,8 +88,9 @@ class Controller():
     def btn_change_image(self, index, photo):
         """
         Change the photo of the door bases of the game.
-        param index: index of the door that needs to be changed.
-        param photo: what photo the door should change to.
+
+        :param index: index of the door that needs to be changed.
+        :param photo: what photo the door should change to.
         :return: None.
         """
         self.view.btns[index].config(image=photo)
@@ -95,6 +98,7 @@ class Controller():
     def btn_reset_lbls(self):
         """
         reset all the buttons
+
         :return: None
         """
         for i, btn in enumerate(self.view.btns):
@@ -104,6 +108,7 @@ class Controller():
     def simulate(self, changedoor, iter):
         """
         Handles the simulation button.
+
         :param changedoor: radio button selection.
         :param iter: How many iterations the simulation should make.
         :return: None
@@ -128,6 +133,7 @@ class Controller():
     def btn_reset_game(self):
         """
         Handles the reset button press.
+
         :return: None
         """
         self.model.reset_stats()
@@ -136,6 +142,7 @@ class Controller():
     def change_doorlbl(self, i, str):
         """
         Changing a certain door label.
+
         :param i: What label should be change.
         :param str: What the label should say.
         :return: None
@@ -145,6 +152,7 @@ class Controller():
     def change_scale(self, width, height):
         """
         Changing the window's size.
+
         :param width: New window's width
         :param height: New window's height
         :return: None.

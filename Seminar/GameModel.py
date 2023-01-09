@@ -45,7 +45,6 @@ class GameModel:
             self.soundManger.lose.stop()
             return
         if self.stage == 1:
-            # self.controller.delete_btn_letChoiceToPC()
             if door_index == self.l2[0]:
                 return
             elif door_index == self.ci:
@@ -73,7 +72,6 @@ class GameModel:
                 self.controller.btn_change_image(remainDoorIndex, self.goat_photo)
             else:
                 self.controller.btn_change_image(remainDoorIndex, self.car_photo)
-            #self.controller.change_doorlbl(remainDoorIndex, "")
 
             return
         if self.stage == 0:
@@ -85,7 +83,7 @@ class GameModel:
             for i in range(len(self.l1)):
                 if i != self.ci and i != door_index:
                     self.l2.append(i)
-            if self.l2 == 2:
+            if len(self.l2) == 2:
                 random.shuffle(self.l2)
             self.controller.toplbl_change_lbl("Do you want to keep your choice or change it?")
             self.controller.btn_change_image(self.l2[0], self.goat_photo)
@@ -95,7 +93,7 @@ class GameModel:
             self.soundManger.goat.play()
             self.stage += 1
             self.firstChoiceIndex = door_index
-            # self.controller.letPC_do_thechoice()
+
 
     def door_selection_simulation(self, door_index):
         """

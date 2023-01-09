@@ -22,10 +22,10 @@ class plotStat:
         self.winrate = None
 
 
-
     def update(self, wins, losses):
         """
-        update plot.
+        updates the plot.
+
         :param wins: wins
         :param losses: losses
         :return: None
@@ -38,7 +38,8 @@ class plotStat:
     def showPlot(self, root):
         """
         function for showing the plot.
-        param root: window's root.
+
+        :param root: window's root.
         :return: None
         """
         try:

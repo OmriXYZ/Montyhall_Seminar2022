@@ -6,6 +6,7 @@ class GameView:
     def __init__(self, root, controller):
         """
         Initialize the game UI, GameView object handles the UI interation with the user.
+
         :param root: Tkinter root window
         :param controller: MVC controller that "holds" the entire program objects
         """
